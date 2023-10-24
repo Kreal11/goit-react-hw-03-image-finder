@@ -1,4 +1,7 @@
 import { Component } from 'react';
+// import axios from 'axios';
+import { ImageGallery } from './ImageGallery/ImageGallery';
+import { Searchbar } from './Searchbar/Searchbar';
 
 class App extends Component {
   render() {
@@ -11,7 +14,11 @@ class App extends Component {
           fontSize: 40,
           color: '#010101',
         }}
-      ></div>
+      >
+        {' '}
+        <Searchbar />
+        <ImageGallery></ImageGallery>
+      </div>
     );
   }
 }
