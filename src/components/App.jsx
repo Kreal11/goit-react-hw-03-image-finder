@@ -25,6 +25,7 @@ class App extends Component {
           page: this.page,
         },
       });
+      console.log(response.data.hits);
       if (response.data.hits) {
         this.setState({ images: response.data.hits });
       }
