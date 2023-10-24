@@ -3,6 +3,7 @@ import { Component } from 'react';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 // import { Searchbar } from './Searchbar/Searchbar';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 class App extends Component {
   #KEY = '39794314-b7170df023ca4db44fdda06f6';
@@ -28,6 +29,7 @@ class App extends Component {
       console.log(response.data.hits);
       if (response.data.hits) {
         this.setState({ images: response.data.hits });
+        toast.success(`We found ${response.data.totalHits} images`);
       }
     } catch (error) {
       console.log(error);
