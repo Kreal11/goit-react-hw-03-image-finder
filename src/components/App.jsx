@@ -60,7 +60,7 @@ class App extends Component {
   };
 
   render() {
-    const { images, total, loading } = this.state;
+    const { images, total, loading, q } = this.state;
     return (
       <div
         style={{
@@ -73,15 +73,17 @@ class App extends Component {
           color: '#010101',
         }}
       >
-        <Searchbar setSearch={this.handleSetSearch} />
+        <Searchbar setSearch={this.handleSetSearch} loading={loading} />
         {loading && !images.length ? (
           <InfinitySpin width="200" color="#4fa94d" />
         ) : (
           <ImageGallery images={images}></ImageGallery>
         )}
 
-        {total > images.length ? (
-          <Button onClick={this.handleOnLoadMore}>Load more</Button>
+        {total > images.length && (!q || !loading) ? (
+          <Button onClick={this.handleOnLoadMore} disabled={loading}>
+            {loading ? 'Loading...' : 'Load more'}
+          </Button>
         ) : null}
       </div>
     );

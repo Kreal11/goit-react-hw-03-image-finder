@@ -16,10 +16,11 @@ export class Searchbar extends Component {
   };
 
   render() {
+    const { loading } = this.props;
     return (
       <header>
         <form onSubmit={this.handleOnSubmit}>
-          <button type="submit">
+          <button type="submit" disabled={loading}>
             <span>Search</span>
           </button>
 
@@ -27,6 +28,7 @@ export class Searchbar extends Component {
             onChange={this.handleOnChangeInput}
             type="search"
             placeholder="Search images and photos"
+            disabled={loading}
           />
         </form>
       </header>
