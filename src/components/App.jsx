@@ -52,6 +52,7 @@ class App extends Component {
   };
 
   handleOnLoadMore = () => {
+    this.setState({ loading: true });
     this.setState(prev => ({ page: prev.page + 1 }));
   };
 
@@ -60,11 +61,12 @@ class App extends Component {
   };
 
   render() {
-    const { images, total, loading, q } = this.state;
+    const { images, total, loading, page } = this.state;
+
     return (
       <div
         style={{
-          padding: 20,
+          padding: 40,
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -79,11 +81,13 @@ class App extends Component {
         ) : (
           <ImageGallery images={images}></ImageGallery>
         )}
-
-        {total > images.length && (!q || !loading) ? (
+        {total > images.length && images.length && !loading ? (
           <Button onClick={this.handleOnLoadMore} disabled={loading}>
             {loading ? 'Loading...' : 'Load more'}
           </Button>
+        ) : null}
+        {total > images.length && images.length && loading ? (
+          <InfinitySpin width="200" color="#4fa94d" />
         ) : null}
       </div>
     );
