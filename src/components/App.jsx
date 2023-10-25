@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { ImageGallery } from './ImageGallery/ImageGallery';
+import { Button } from './Button/Button';
 // import { Searchbar } from './Searchbar/Searchbar';
 import { toast } from 'react-toastify';
 import { fetchImages } from 'services/image-api';
@@ -36,15 +37,18 @@ class App extends Component {
     return (
       <div
         style={{
+          padding: 20,
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          flexDirection: 'column',
           fontSize: 40,
           color: '#010101',
         }}
       >
         {/* <Searchbar /> */}
         <ImageGallery images={images}></ImageGallery>
+        <Button>Load more</Button>
       </div>
     );
   }
