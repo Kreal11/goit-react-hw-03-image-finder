@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
-// import { Searchbar } from './Searchbar/Searchbar';
+import { Searchbar } from './Searchbar/Searchbar';
 import { toast } from 'react-toastify';
 import { fetchImages } from 'services/image-api';
 
@@ -9,10 +9,10 @@ class App extends Component {
   state = {
     loading: false,
     error: null,
+    images: [],
     per_page: 12,
     page: 1,
-    images: [],
-    filter: '',
+    q: '',
   };
 
   async componentDidMount() {
@@ -20,16 +20,27 @@ class App extends Component {
     this.getImages({ per_page, page });
   }
 
-  getImages = async ({ per_page, page }) => {
+  async componentDidUpdate(prevProps, prevState) {
+    const { per_page, page, q } = this.state;
+    if (q !== prevState.q) {
+      this.getImages({ per_page, page, q });
+    }
+  }
+
+  getImages = async params => {
     try {
-      const images = await fetchImages({ per_page, page });
+      const { hits, totalHits } = await fetchImages(params);
       this.setState(prevState => ({
-        images: [...prevState.images, ...images.hits],
+        images: [...prevState.images, ...hits],
       }));
-      toast.success(`We found ${images.totalHits} images`);
+      toast.success(`We found ${totalHits} images`);
     } catch (error) {
       toast.error('Oops, something went wrong');
     }
+  };
+
+  handleSetSearch = q => {
+    this.setState({ q, images: [], page: 1 });
   };
 
   render() {
@@ -46,7 +57,7 @@ class App extends Component {
           color: '#010101',
         }}
       >
-        {/* <Searchbar /> */}
+        <Searchbar setSearch={this.handleSetSearch} />
         <ImageGallery images={images}></ImageGallery>
         <Button>Load more</Button>
       </div>

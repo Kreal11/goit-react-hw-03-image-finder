@@ -5,7 +5,7 @@ export const ImageGallery = ({ images }) => {
   return (
     <div>
       <StyledImgListUl>
-        {images.map(image => (
+        {images?.map(image => (
           <ImageGalleryItem key={image.id} {...image} />
         ))}
       </StyledImgListUl>

@@ -3,7 +3,13 @@ export const ImageGalleryItem = ({ ...image }) => {
   return (
     <div>
       <li>
-        <img src={webformatURL} alt={type} width="375" height="400" />
+        <img
+          style={{ objectFit: 'cover' }}
+          src={webformatURL}
+          alt={type}
+          width="375"
+          height="400"
+        />
       </li>
     </div>
   );

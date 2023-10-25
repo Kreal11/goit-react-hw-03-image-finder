@@ -1,3 +1,3 @@
-export const Button = ({ children, onClick }) => {
-  return <button>{children}</button>;
+export const Button = props => {
+  return <button {...props} />;
 };
