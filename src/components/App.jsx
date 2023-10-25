@@ -4,39 +4,55 @@ import { Button } from './Button/Button';
 import { Searchbar } from './Searchbar/Searchbar';
 import { toast } from 'react-toastify';
 import { fetchImages } from 'services/image-api';
+import { InfinitySpin } from 'react-loader-spinner';
 
 class App extends Component {
   state = {
     loading: false,
     error: null,
+    total: null,
     images: [],
     per_page: 12,
     page: 1,
     q: '',
+    first_load: false,
   };
 
   async componentDidMount() {
+    this.state.first_load = true;
     const { per_page, page } = this.state;
     this.getImages({ per_page, page });
   }
 
   async componentDidUpdate(prevProps, prevState) {
     const { per_page, page, q } = this.state;
-    if (q !== prevState.q) {
+    if (q !== prevState.q || page !== prevState.page) {
       this.getImages({ per_page, page, q });
     }
   }
 
   getImages = async params => {
+    const { first_load, q, page } = this.state;
+    this.setState({ loading: true });
     try {
       const { hits, totalHits } = await fetchImages(params);
       this.setState(prevState => ({
         images: [...prevState.images, ...hits],
+        total: totalHits,
       }));
-      toast.success(`We found ${totalHits} images`);
+      if (first_load || (q && page === 1)) {
+        toast.success(`We found ${totalHits} images`);
+      }
+      this.state.first_load = false;
     } catch (error) {
       toast.error('Oops, something went wrong');
+    } finally {
+      this.setState({ loading: false });
     }
+  };
+
+  handleOnLoadMore = () => {
+    this.setState(prev => ({ page: prev.page + 1 }));
   };
 
   handleSetSearch = q => {
@@ -44,7 +60,7 @@ class App extends Component {
   };
 
   render() {
-    const { images } = this.state;
+    const { images, total, loading } = this.state;
     return (
       <div
         style={{
@@ -58,8 +74,15 @@ class App extends Component {
         }}
       >
         <Searchbar setSearch={this.handleSetSearch} />
-        <ImageGallery images={images}></ImageGallery>
-        <Button>Load more</Button>
+        {loading && !images.length ? (
+          <InfinitySpin width="200" color="#4fa94d" />
+        ) : (
+          <ImageGallery images={images}></ImageGallery>
+        )}
+
+        {total > images.length ? (
+          <Button onClick={this.handleOnLoadMore}>Load more</Button>
+        ) : null}
       </div>
     );
   }
