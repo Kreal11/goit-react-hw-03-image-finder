@@ -1,14 +1,19 @@
-export const ImageGalleryItem = ({ ...image }) => {
-  const { webformatURL, type } = image;
+export const ImageGalleryItem = ({
+  webformatURL,
+  type,
+  largeImageURL,
+  toggleModal,
+}) => {
   return (
     <div>
       <li>
         <img
-          style={{ objectFit: 'cover' }}
+          style={{ objectFit: 'cover', cursor: 'pointer' }}
           src={webformatURL}
           alt={type}
-          width="375"
-          height="400"
+          onClick={() => toggleModal(largeImageURL)}
+          width="300"
+          height="300"
         />
       </li>
     </div>

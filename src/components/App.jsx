@@ -5,17 +5,20 @@ import { Searchbar } from './Searchbar/Searchbar';
 import { toast } from 'react-toastify';
 import { fetchImages } from 'services/image-api';
 import { InfinitySpin } from 'react-loader-spinner';
+import { Modal } from './Modal/Modal';
 
 class App extends Component {
   state = {
+    isOpen: false,
     loading: false,
+    first_load: false,
+    dataModal: null,
     error: null,
     total: null,
     images: [],
     per_page: 12,
     page: 1,
     q: '',
-    first_load: false,
   };
 
   async componentDidMount() {
@@ -60,8 +63,12 @@ class App extends Component {
     this.setState({ q, images: [], page: 1 });
   };
 
+  handleToggleModal = largeImageURL => {
+    this.setState(prev => ({ isOpen: !prev.isOpen, dataModal: largeImageURL }));
+  };
+
   render() {
-    const { images, total, loading } = this.state;
+    const { images, total, loading, isOpen, dataModal } = this.state;
 
     return (
       <div
@@ -79,7 +86,10 @@ class App extends Component {
         {loading && !images.length ? (
           <InfinitySpin width="200" color="#4fa94d" />
         ) : (
-          <ImageGallery images={images}></ImageGallery>
+          <ImageGallery
+            images={images}
+            toggleModal={this.handleToggleModal}
+          ></ImageGallery>
         )}
         {total > images.length && images.length && !loading ? (
           <Button onClick={this.handleOnLoadMore} disabled={loading}>
@@ -88,6 +98,11 @@ class App extends Component {
         ) : null}
         {total > images.length && images.length && loading ? (
           <InfinitySpin width="200" color="#4fa94d" />
+        ) : null}
+        {isOpen && dataModal ? (
+          <Modal close={this.handleToggleModal}>
+            <img src={dataModal} alt="" />
+          </Modal>
         ) : null}
       </div>
     );
