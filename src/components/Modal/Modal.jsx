@@ -30,7 +30,7 @@ export class Modal extends Component {
     return (
       <StyledWrapperOverlay onClick={this.handleClickOut}>
         <StyledWrapperModal>
-          <button onClick={this.props.close}>Exit</button>
+          <button onClick={this.props.close}>✖️</button>
           {this.props.children}
         </StyledWrapperModal>
       </StyledWrapperOverlay>

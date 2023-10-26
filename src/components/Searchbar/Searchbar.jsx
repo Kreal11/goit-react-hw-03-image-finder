@@ -7,6 +7,9 @@ export class Searchbar extends Component {
 
   handleOnSubmit = e => {
     e.preventDefault();
+    if (!this.state.searchStr) {
+      return;
+    }
     this.props.setSearch(this.state.searchStr);
     this.setState({ searchStr: '' });
   };
@@ -16,11 +19,18 @@ export class Searchbar extends Component {
   };
 
   render() {
-    const { loading } = this.props;
+    const { loading, query } = this.props;
     return (
       <header>
         <form onSubmit={this.handleOnSubmit}>
-          <button type="submit" disabled={loading}>
+          <button
+            type="submit"
+            disabled={
+              loading ||
+              this.state.searchStr.trim() === '' ||
+              query.trim() === this.state.searchStr.trim()
+            }
+          >
             <span>Search</span>
           </button>
 

@@ -68,7 +68,7 @@ class App extends Component {
   };
 
   render() {
-    const { images, total, loading, isOpen, dataModal } = this.state;
+    const { images, total, loading, isOpen, dataModal, q } = this.state;
 
     return (
       <div
@@ -82,7 +82,11 @@ class App extends Component {
           color: '#010101',
         }}
       >
-        <Searchbar setSearch={this.handleSetSearch} loading={loading} />
+        <Searchbar
+          setSearch={this.handleSetSearch}
+          loading={loading}
+          query={q}
+        />
 
         <ImageGallery images={images} toggleModal={this.handleToggleModal} />
 
