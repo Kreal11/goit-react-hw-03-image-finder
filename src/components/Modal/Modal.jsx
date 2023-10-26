@@ -1,6 +1,7 @@
 import { toast } from 'react-toastify';
 import { StyledWrapperModal, StyledWrapperOverlay } from './Modal.styled';
-const { Component } = require('react');
+import { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export class Modal extends Component {
   handleKeyDown = e => {
@@ -37,3 +38,7 @@ export class Modal extends Component {
     );
   }
 }
+
+Modal.propTypes = {
+  close: PropTypes.func.isRequired,
+};

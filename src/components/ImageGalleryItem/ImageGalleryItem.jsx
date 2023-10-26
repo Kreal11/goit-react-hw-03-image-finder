@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export const ImageGalleryItem = ({
   webformatURL,
   type,
@@ -18,4 +20,11 @@ export const ImageGalleryItem = ({
       </li>
     </div>
   );
+};
+
+ImageGalleryItem.propTypes = {
+  webformatURL: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  largeImageURL: PropTypes.string.isRequired,
+  toggleModal: PropTypes.func.isRequired,
 };
