@@ -83,25 +83,20 @@ class App extends Component {
         }}
       >
         <Searchbar setSearch={this.handleSetSearch} loading={loading} />
-        {loading && !images.length ? (
-          <InfinitySpin width="200" color="#4fa94d" />
-        ) : (
-          <ImageGallery
-            images={images}
-            toggleModal={this.handleToggleModal}
-          ></ImageGallery>
-        )}
-        {total > images.length && images.length && !loading ? (
+
+        <ImageGallery images={images} toggleModal={this.handleToggleModal} />
+
+        {total > images.length && !loading && (
           <Button onClick={this.handleOnLoadMore} disabled={loading}>
             {loading ? 'Loading...' : 'Load more'}
           </Button>
-        ) : null}
-        {total > images.length && images.length && loading ? (
-          <InfinitySpin width="200" color="#4fa94d" />
-        ) : null}
+        )}
+
+        {loading && <InfinitySpin width="200" color="#4fa94d" />}
+
         {isOpen && dataModal ? (
           <Modal close={this.handleToggleModal}>
-            <img src={dataModal} alt="" />
+            <img src={dataModal} alt="Large size img" />
           </Modal>
         ) : null}
       </div>
