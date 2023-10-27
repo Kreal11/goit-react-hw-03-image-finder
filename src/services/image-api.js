@@ -12,13 +12,3 @@ export const fetchImages = async params => {
   });
   return data;
 };
-
-export const fetchImagesBySearch = async params => {
-  const { data } = await axios.get('api/', {
-    params: {
-      ...params,
-      key,
-    },
-  });
-  return data;
-};
